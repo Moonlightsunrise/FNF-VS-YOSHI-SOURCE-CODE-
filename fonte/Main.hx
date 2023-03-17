@@ -36,6 +36,7 @@ class Main extends Sprite
 	}
 
 	public function new()
+SUtil.uncaughtErrorHandler();
 	{
 		super();
 
