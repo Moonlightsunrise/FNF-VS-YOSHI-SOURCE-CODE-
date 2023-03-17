@@ -27,19 +27,19 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
 
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
-
-	<!--Switch-specific-->
+	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" allow-shaders="true" require-shaders="true" allow-high-dpi="true" />
+	
+        <!--Switch-specific-->
 	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
-
-	<set name="BUILD_DIR" value="export/debug" if="debug" />
+ 
+        <set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
 
 	<classpath name="source" />
-
+	<assets path="mobile" rename="assets/mobile" if="mobile" /> <!-- in order to not have the mobile assets in another builds -saw -->
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web"/>
 	<assets path="assets/preload" rename="assets" exclude="*.mp3" unless="web"/>
 	
@@ -71,7 +71,30 @@
 		<library name="week5"    preload="false" />
 		<library name="week6"    preload="false" />
 		<library name="yoshi"    preload="false" />
+	
+        <haxelib name="extension-androidtools" if="android" />
+	<!--Always enable Null Object Reference check-->
+	<haxedef name="HXCPP_CHECK_POINTER" />
+	<haxedef name="HXCPP_STACK_LINE" />
+	<haxedef name="HXCPP_STACK_TRACE" />
+
+	<section if="android">
+		<config>
+			<!--Gradle-->
+			<android gradle-version="7.4.2" gradle-plugin="7.3.1" />
+
+			<!--Target SDK-->
+			<android target-sdk-version="29" if="${lime &lt; 8.1.0}" />
+		</config>
 	</section>
+
+	<section if="ios">
+		<!--Dependency--> 
+		<dependency name="Metal.framework" />
+		<dependency name="WebKit.framework" />
+	</section>
+	
+        </section>
 	
 	<assets path="assets/songs"    library="songs"    exclude="*.ogg" if="web"/>
 	<assets path="assets/songs"    library="songs"    exclude="*.mp3" unless="web"/>
